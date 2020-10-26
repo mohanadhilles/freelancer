@@ -90,7 +90,7 @@ p,label,span, th,td, li, a{
     color: #ffffff !important;
 } 
 .wt-bannersevenvtwo {
-    background-image: url(../images/homeseven/banner-img/img-02.png) ,linear-gradient(to bottom, rgb(22 170 225) 0%,rgb(24 7 77) 100%) !important;
+background-image: url(../images/homeseven/banner-img/img-02.png) ,linear-gradient(to bottom, rgb(7, 1, 61) 0%,rgb(45, 170, 220) 100%) !important;
 }
 
 .wt-mobapp-img img{
