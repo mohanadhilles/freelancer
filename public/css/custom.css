@@ -106,3 +106,7 @@ p,label,span, th,td, li, a{
 .wt-bannertitletwo h1{
     font-size: 20px !important;
 }
+.wt-mobapp-btns .wt-appbtn img{
+    width: 170px !important;
+    height: 56px !important;
+}
