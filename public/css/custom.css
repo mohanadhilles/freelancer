@@ -1,0 +1,108 @@
+/*
+Theme Name: Worketic
+Theme URI: http://amentotech.com/projects/worketic
+Author: Amentotech
+Author URI:  https://themeforest.net/user/amentotech/portfolio
+Version: 1.0.0
+You can add your custom styling here
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;700&display=swap');
+
+.wt-innerbgcolor,body {
+    background-color: #fafafa26 !important;
+}
+
+.wt-innerbgcolor،.wt-innerbgcolor {
+    background-color: #fafafa99 !important;
+}
+
+.wt-gradientbg4:before{
+background: linear-gradient(to top, #00B6E4 0%,#07013D 100%) !important;
+}
+
+.wt-footerthreevtwo{
+	background-image: url(../images/homeseven/footer-bg2.png),linear-gradient(to top, #07013D 0%,#00B6E4 100%);
+}
+.wt-footerthreevtwo.wt-innerbgcolor{
+	background-image: url(../images/homeseven/footer-bg2b.png),linear-gradient(to top, #07013D 0%,#00B6E4 100%);
+}
+
+
+.wt-headerelevenb .wt-loginarea > .wt-btn{
+    background: #00B6E4 !important;
+}
+.wt-bannercontentseven .wt-searchbtn{
+    background: #07013D !important;
+}
+.wt-logo a img{
+    width: 103px !important;
+}
+
+.wt-header .wt-navigation>ul>.menu-item-has-children:after, .wt-header .wt-navigation > ul > li > a {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.wt-bannercontentseven .wt-searchbtn{
+    line-height: 56px;
+}
+h1,h2,h3,h4,h5,h6{
+	font-family: 'Almarai', sans-serif !important;
+	font-weight: bold !important;
+}
+
+p,label,span, th,td, li, a{
+	font-family: 'Almarai', sans-serif !important;
+}
+
+.wt-headereleven.scrolled {
+    display: flex;
+    position: fixed;
+    width: 100%;
+    background: #07013D;
+    transition: background-color 200ms linear;
+    opacity: 0.9;
+
+  }
+  .wt-headereleven.scrolled .wt-navigation>ul>.menu-item-has-children:after, .wt-header.scrolled .wt-navigation > ul > li > a{
+    font-weight: 500 !important;
+    
+  }
+  
+  .wt-haslayout .wt-navigationarea .container-fluid .row .col-xs-12.col-sm-12.col-md-12.col-lg-12 .wt-logo a img{
+    background: url('http://freelancer.m/images/dark-logo.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-origin: content-box;
+    }
+    
+
+  .wt-haslayout .wt-navigation > ul > li > a{
+    color: #000000 !important;
+    font-weight: bold !important;
+  }
+  .wt-headerelevenb .wt-navigation > ul > li > a, .wt-header .wt-navigationarea .wt-userlogedin .wt-username span, .wt-header .wt-navigationarea .wt-userlogedin .wt-username h3 {
+    color: #ffffff !important;
+} 
+.wt-bannersevenvtwo {
+    background-image: url(../images/homeseven/banner-img/img-02.png) ,linear-gradient(to bottom, rgb(22 170 225) 0%,rgb(24 7 77) 100%) !important;
+}
+
+.wt-mobapp-img img{
+    height: 30rem !important;
+}
+.wt-headereleven .wt-loginoptionvtwo .wt-btn{
+    background: #f5f7fa;
+}
+
+.wt-sectiontitlevtwo span{
+    font-size: 24px;
+}
+.wt-bannertitletwo h1{
+    font-size: 20px !important;
+}
