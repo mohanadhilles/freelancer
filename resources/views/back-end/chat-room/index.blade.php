@@ -7,11 +7,13 @@
                     <div class="wt-dashboardboxtitle">
                         <h2>{{ trans('lang.msgs') }}</h2>
                     </div>
+                    @if(isset($chat_settings) && $chat_settings  !== null)
                     <message-center 
                         :empty_field="'{{ trans('lang.empty_field') }}'" 
                         :host="'{{$chat_settings['host']}}'" 
                         :port="'{{$chat_settings['port']}}'">
                     </message-center>
+                    @endif
                 </div>
             </div>
         </div>
