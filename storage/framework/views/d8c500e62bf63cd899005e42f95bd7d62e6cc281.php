@@ -15,7 +15,7 @@
                         <?php if(auth()->guard()->guest()): ?>
                             <div class="wt-loginarea">
                                 <div class="wt-loginoption wt-loginoptionvtwo">
-                                    <a href="javascript:void(0);" id="wt-loginbtn" class="wt-btn"><?php echo e(trans('lang.sign_in')); ?></a>
+                                <a href="<?php echo e(url('login')); ?>" class="wt-btn"><?php echo e(trans('lang.sign_in')); ?></a>
                                     <div class="wt-loginformhold">
                                         <div class="wt-loginheader">
                                             <span><?php echo e(trans('lang.sign_in')); ?></span>
