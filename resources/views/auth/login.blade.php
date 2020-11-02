@@ -68,9 +68,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-md-4 offset-md-0">
+                            <div class="col-md-6" style="text-align: right;">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} style="margin-right: 19%;">
 
                                     <label class="form-check-label" for="remember">
                                         {{ trans('lang.remember') }}
