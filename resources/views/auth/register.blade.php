@@ -402,7 +402,7 @@
                         </div>
                     </div>
                     <div class="wt-registerformfooter">
-                        <span>{{{ trans('lang.have_account') }}}<a id="wt-lg" href="javascript:void(0);" @click.prevent='scrollTop()'>{{{ trans('lang.btn_login_now') }}}</a></span>
+                    <span>{{{ trans('lang.have_account') }}}<a  href="{{url('/login')}}">{{{ trans('lang.btn_login_now') }}}</a></span>
                     </div>
                 </div>
             </div>

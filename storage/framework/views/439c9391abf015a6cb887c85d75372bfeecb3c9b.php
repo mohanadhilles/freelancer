@@ -409,7 +409,7 @@
                         </div>
                     </div>
                     <div class="wt-registerformfooter">
-                        <span><?php echo e(trans('lang.have_account')); ?><a id="wt-lg" href="javascript:void(0);" @click.prevent='scrollTop()'><?php echo e(trans('lang.btn_login_now')); ?></a></span>
+                    <span><?php echo e(trans('lang.have_account')); ?><a  href="<?php echo e(url('/login')); ?>"><?php echo e(trans('lang.btn_login_now')); ?></a></span>
                     </div>
                 </div>
             </div>
