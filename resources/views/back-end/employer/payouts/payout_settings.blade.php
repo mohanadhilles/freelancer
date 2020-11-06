@@ -24,7 +24,7 @@
                                     <p>{{ trans('lang.emp_payout_settings_note') }}</p>
                                 </div>
                                 <form class="wt-formtheme wt-payout-settings la-payout-settings" @submit.prevent="submitPayoutsDetail({{Auth::user()->id}})" id="profile_payout_detail">
-                                    @if( !empty($payrols) )
+                                    @if(isset($payrols) && count($payrols) > 0 )
                                         @foreach ($payrols as $pay_key	=> $payrol)
                                             @php
                                                 $vue_display = $payrol['id'] == 'bacs' ? 'show_bank_fields' : 'show_paypal_fields';
