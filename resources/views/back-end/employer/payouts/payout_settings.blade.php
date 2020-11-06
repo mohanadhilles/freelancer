@@ -28,7 +28,7 @@
                                         @foreach ($payrols as $pay_key	=> $payrol)
                                             @php
                                                 $vue_display = $payrol['id'] == 'bacs' ? 'show_bank_fields' : 'show_paypal_fields';
-                                                $checked =  $payout_settings['type'] == $payrol['id'] ? 'checked' : '';
+                                                $checked =  isset($payout_settings['type']) && $payout_settings['type'] == $payrol['id'] ? 'checked' : '';
                                             @endphp
                                             @if( !empty($payrol['status']) && $payrol['status'] === 'enable' )
                                                 <fieldset>
