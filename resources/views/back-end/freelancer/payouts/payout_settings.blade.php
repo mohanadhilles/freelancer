@@ -50,7 +50,7 @@
                                                                     <p>{{ trans('lang.bank_payout_id_text') }}</p>
                                                                 @endif
                                                             </div>
-                                                            @if( !empty($payrol['fields']))
+                                                            @if(isset($payrol['fields']))
                                                                 @foreach( $payrol['fields'] as $key => $field )
                                                                     @php $db_value	= !empty($payout_settings[$key]) ? $payout_settings[$key] : ""; @endphp
                                                                 <div class="form-group form-group-half toolip-wrapo">
