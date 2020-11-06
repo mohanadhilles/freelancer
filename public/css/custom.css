@@ -131,7 +131,9 @@ background-image: url(../images/homeseven/banner-img/img-02.png) ,linear-gradien
     text-align: center !important;
     padding: 1.75rem 1.25rem;
 }
-
+.wt-freelancer-img{
+    background: #ededed !important;
+}
 @media (max-width:991px){
     .wt-headerelevenb .wt-navigation > ul > li > a, .wt-header .wt-navigationarea .wt-userlogedin .wt-username span, .wt-header .wt-navigationarea .wt-userlogedin .wt-username h3 {
         color: #231c1c !important;
