@@ -68,7 +68,7 @@ class TrainingController extends Controller
         $services_total_records = '';
         $services = $this->service->latest()->paginate(8);
         $keyword = '';
-        if (file_exists(resource_path('views/extend/front-end/services/index.blade.php'))) {
+        if (file_exists(resource_path('views/extend/front-end/training/index.blade.php'))) {
             return view(
                 'extend.front-end.training.index',
                 compact(
@@ -172,26 +172,26 @@ class TrainingController extends Controller
             return $json;
         }
         if (Auth::user()->user_verified == 1) {
-            $this->validate(
-                $request,
-                [
-                    'title' => 'required',
-                    'delivery_time'    => 'required',
-                    'service_price'    => 'required',
-                    'response_time'    => 'required',
-                    'english_level'    => 'required',
-                    'description'    => 'required',
-                ]
-            );
-            if (!empty($request['latitude']) || !empty($request['longitude'])) {
-                $this->validate(
-                    $request,
-                    [
-                        'latitude' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-                        'longitude' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-                    ]
-                );
-            }
+            // $this->validate(
+            //     $request,
+            //     [
+            //         'title' => 'required',
+            //         'delivery_time'    => 'required',
+            //         'service_price'    => 'required',
+            //         'response_time'    => 'required',
+            //         'english_level'    => 'required',
+            //         'description'    => 'required',
+            //     ]
+            // );
+            // if (!empty($request['latitude']) || !empty($request['longitude'])) {
+            //     $this->validate(
+            //         $request,
+            //         [
+            //             'latitude' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            //             'longitude' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+            //         ]
+            //     );
+            // }
             $user = User::find(Auth::user()->id);
             $package_item = Item::where('subscriber', Auth::user()->id)->first();
             $package = !empty($package_item) ? Package::find($package_item->product_id) : '';
@@ -232,6 +232,7 @@ class TrainingController extends Controller
                         'medium'
                     );
                     $service_post = $this->service->storeTraining($request, $image_size);
+            
                     if ($service_post['type'] == 'success') {
                         $json['type'] = 'success';
                         $json['progress'] = trans('lang.service_publishing');
@@ -272,7 +273,7 @@ class TrainingController extends Controller
                     'small',
                     'medium'
                 );
-                $service_post = $this->service->storeService($request, $image_size);
+                $service_post = $this->service->storeTraining($request, $image_size);
                 if ($service_post['type'] == 'success') {
                     $json['type'] = 'success';
                     $json['progress'] = trans('lang.service_publishing');
@@ -438,7 +439,7 @@ class TrainingController extends Controller
         );
         $freelancer  = Helper::getServiceSeller($service->id);
         $attachments = !empty($serialize_attachment) ? unserialize($serialize_attachment) : '';
-        if (file_exists(resource_path('views/extend/back-end/freelancer/services/edit.blade.php'))) {
+        if (file_exists(resource_path('views/extend/back-end/freelancer/training/edit.blade.php'))) {
             return view(
                 'extend.back-end.freelancer.training.edit',
                 compact(
@@ -513,7 +514,7 @@ class TrainingController extends Controller
                 'small',
                 'medium'
             );
-            $service_update = $this->service->updateService($request, $id, $image_size);
+            $service_update = $this->service->updateTraining($request, $id, $image_size);
             if ($service_update['type'] = 'success') {
                 $json['type'] = 'success';
                 $json['role'] = Auth::user()->getRoleNames()->first();

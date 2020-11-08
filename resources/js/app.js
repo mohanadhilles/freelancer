@@ -4821,6 +4821,62 @@ if (document.getElementById("services")) {
                         }
                     });
             },
+            updateTraining: function (id) {
+                this.loading = true;
+                let register_Form = document.getElementById('update_training_form');
+                let form_data = new FormData(register_Form);
+                var description = tinyMCE.get('wt-tinymceeditor').getContent();
+                form_data.append('description', description);
+                form_data.append('id', id);
+                var self = this;
+                axios.post(APP_URL + '/training/update-training', form_data)
+                    .then(function (response) {
+                        self.loading = false;
+                        if (response.data.type == 'success') {
+                            self.showInfo(response.data.progress);
+                            document.addEventListener('iziToast-closing', function (data) {
+                                if (data.detail.id == 'info_notify') {
+                                    self.showCompleted(response.data.message);
+                                    if (response.data.role == 'freelancer') {
+                                        window.location.replace(APP_URL + '/freelancer/services/posted');
+                                    } else if (response.data.role == 'admin') {
+                                        //window.location.replace(APP_URL+'/admin/jobs');
+                                    }
+                                }
+                            });
+                        } else {
+                            self.loading = false;
+                            self.showError(response.data.message);
+                        }
+                    })
+                    .catch(function (error) {
+                        self.loading = false;
+                        if (error.response.data.errors.title) {
+                            self.showError(error.response.data.errors.title[0]);
+                        }
+                        if (error.response.data.errors.delivery_time) {
+                            self.showError(error.response.data.errors.delivery_time[0]);
+                        }
+                        if (error.response.data.errors.service_price) {
+                            self.showError(error.response.data.errors.service_price[0]);
+                        }
+                        if (error.response.data.errors.response_time) {
+                            self.showError(error.response.data.errors.response_time[0]);
+                        }
+                        if (error.response.data.errors.description) {
+                            self.showError(error.response.data.errors.description[0]);
+                        }
+                        if (error.response.data.errors.english_level) {
+                            self.showError(error.response.data.errors.english_level[0]);
+                        }
+                        if (error.response.data.errors.latitude) {
+                            self.showError(error.response.data.errors.latitude[0]);
+                        }
+                        if (error.response.data.errors.longitude) {
+                            self.showError(error.response.data.errors.longitude[0]);
+                        }
+                    });
+            },
             deleteAttachment: function (id) {
                 jQuery('#' + id).remove();
             },

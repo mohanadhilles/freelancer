@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="wt-haslayout wt-post-job-wrap">
-                {!! Form::open(['url' => '', 'class' =>'wt-haslayout', 'id' => 'post_service_form',  '@submit.prevent'=>'submitService']) !!}
+                {!! Form::open(['url' => '', 'class' =>'wt-haslayout', 'id' => 'post_training_form',  '@submit.prevent'=>'submitTraining']) !!}
                     <div class="wt-dashboardbox">
                         <div class="wt-dashboardboxtitle">
                             <h2>{{ trans('lang.post_service') }}</h2>
@@ -31,9 +31,9 @@
                                         </div>
                                         <div class="form-group form-group-half wt-formwithlabel job-cost-input">
                                             {!! Form::number('service_price', null, array('class' => '', 'placeholder' => trans('lang.service_price'), 'v-model'=>'price')) !!}
-                                              <input type="hidden" value="1" name="training">
                                         </div>
 
+                            
                                     </fieldset>
                                 </div>
                             </div>

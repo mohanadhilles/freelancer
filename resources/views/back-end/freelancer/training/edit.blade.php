@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="wt-haslayout wt-post-job-wrap">
-                {!! Form::open(['url' => '', 'class' =>'wt-haslayout', 'id' => 'update_service_form',  '@submit.prevent'=>'updateService("'.$service->id.'")']) !!}
+                {!! Form::open(['url' => '', 'class' =>'wt-haslayout', 'id' => 'update_training_form',  '@submit.prevent'=>'updateTraining("'.$service->id.'")']) !!}
                     <div class="wt-dashboardbox">
                         <div class="wt-dashboardboxtitle">
                             <h2>{{ trans('lang.update_service') }}</h2>

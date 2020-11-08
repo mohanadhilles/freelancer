@@ -138,7 +138,6 @@ class Service extends Model
             $location = $request['locations'];
             $this->location()->associate($location);
             $this->title = filter_var($request['title'], FILTER_SANITIZE_STRING);
-            $this->training = 0;
             $this->slug = filter_var($request['title'], FILTER_SANITIZE_STRING);
             $this->price = filter_var($request['service_price'], FILTER_SANITIZE_STRING);
             $this->delivery_time_id = intval($request['delivery_time']);
@@ -345,6 +344,78 @@ class Service extends Model
                 $service->slug = filter_var($request['title'], FILTER_SANITIZE_STRING);
             }
             $service->title = filter_var($request['title'], FILTER_SANITIZE_STRING);
+            $service->price = filter_var($request['service_price'], FILTER_SANITIZE_STRING);
+            $service->delivery_time_id = intval($request['delivery_time']);
+            $service->description = $request['description'];
+            $service->english_level = filter_var($request['english_level'], FILTER_SANITIZE_STRING);
+            $service->response_time_id = intval($request['response_time']);
+            $service->is_featured = filter_var($request['is_featured'], FILTER_SANITIZE_STRING);
+            $service->show_attachments = filter_var($request['show_attachments'], FILTER_SANITIZE_STRING);
+            $service->address = filter_var($request['address'], FILTER_SANITIZE_STRING);
+            $service->longitude = filter_var($request['longitude'], FILTER_SANITIZE_STRING);
+            $service->latitude = filter_var($request['latitude'], FILTER_SANITIZE_STRING);
+            $old_path = Helper::PublicPath() . '/uploads/services/temp';
+            $new_path = Helper::PublicPath() . '/uploads/services/' . $user_id->user_id;
+            $service_attachments = array();
+            if (!empty($request['attachments'])) {
+                $attachments = $request['attachments'];
+                foreach ($attachments as $key => $attachment) {
+                    if (file_exists($old_path . '/' . $attachment)) {
+                        if (!file_exists($new_path)) {
+                            File::makeDirectory($new_path, 0755, true, true);
+                        }
+                        $filename = time() . '-' . $attachment;
+                        if (!empty($image_size)) {
+                            foreach ($image_size as $size) {
+                                rename($old_path . '/' . $size . '-' . $attachment, $new_path . '/' . $size . '-' . $filename);
+                            }
+                            rename($old_path . '/' . $attachment, $new_path . '/' . $filename);
+                        } else {
+                            rename($old_path . '/' . $attachment, $new_path . '/' . $filename);
+                        }
+                        $service_attachments[] = $filename;
+                    } else {
+                        $service_attachments[] = $attachment;
+                    }
+                }
+                $service->attachments = serialize($service_attachments);
+            }
+            $service->save();
+            $service_id = $service->id;
+            $service = Service::find($service_id);
+            $languages = $request['languages'];
+            $service->languages()->sync($languages);
+            $categories = $request['categories'];
+            $service->categories()->sync($categories);
+            $json['type'] = 'success';
+            return $json;
+        } else {
+            $json['type'] = 'error';
+            return $json;
+        }
+    }
+        /**
+     * Update Jobs.
+     *
+     * @param mixed   $request request
+     * @param integer $id      ID
+     *
+     * @return $request, ID
+     */
+    public function updateTraining($request, $id, $image_size = array())
+    {
+        $json = array();
+        if (!empty($request)) {
+            $service = self::find($id);
+            $random_number = Helper::generateRandomCode(8);
+            $user_id = Helper::getServiceSeller($id);
+            $location = $request['locations'];
+            $service->location()->associate($location);
+            if ($service->title != $request['title']) {
+                $service->slug = filter_var($request['title'], FILTER_SANITIZE_STRING);
+            }
+            $service->title = filter_var($request['title'], FILTER_SANITIZE_STRING);
+            $service->training = 1;
             $service->price = filter_var($request['service_price'], FILTER_SANITIZE_STRING);
             $service->delivery_time_id = intval($request['delivery_time']);
             $service->description = $request['description'];

@@ -291,11 +291,13 @@ Route::group(
         }
         Route::post('services/change-status', 'ServiceController@changeStatus');
         Route::get('freelancer/dashboard/edit-service/{id}', 'ServiceController@edit')->name('edit_service');
+        Route::get('freelancer/dashboard/edit-training/{id}', 'TrainingController@edit')->name('edit_service');
         Route::post('services/post-service', 'ServiceController@store');
         Route::post('service/upload-temp-image', 'ServiceController@uploadTempImage');
         Route::post('freelancer/dashboard/delete-service', 'ServiceController@destroy');
         Route::post('service/get-service-settings', 'ServiceController@getServiceSettings');
         Route::post('service/update-service', 'ServiceController@update');
+        Route::post('training/update-training', 'TrainingController@update');
 
         // training
         if (Helper::getAccessType() == 'both' || Helper::getAccessType() == 'training') {

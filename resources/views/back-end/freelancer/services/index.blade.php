@@ -78,9 +78,15 @@
 														<a href="{{{route('serviceDetail',$service['slug'])}}}" class="wt-viewinfo">
 															<i class="lnr lnr-eye"></i>
 														</a>
-														<a href="{{{route('edit_service',$service['id'])}}}" class="wt-addinfo wt-skillsaddinfo">
+														@if($service->training == 0)
+															<a href="{{{route('edit_service',$service['id'])}}}" class="wt-addinfo wt-skillsaddinfo">
+																<i class="lnr lnr-pencil"></i>
+															</a>	
+														@else
+														<a href="{{{route('edit_training',$service['id'])}}}" class="wt-addinfo wt-skillsaddinfo">
 															<i class="lnr lnr-pencil"></i>
 														</a>
+														@endif
 														@if ($total_orders == 0)
 															<delete :title="'{{trans("lang.ph_delete_confirm_title")}}'" :id="'{{ $service['id'] }}'" :message="'{{trans("lang.ph_badge_delete_message")}}'" :url="'{{url('freelancer/dashboard/delete-service')}}'"></delete>
 														@endif
