@@ -172,26 +172,26 @@ class TrainingController extends Controller
             return $json;
         }
         if (Auth::user()->user_verified == 1) {
-            // $this->validate(
-            //     $request,
-            //     [
-            //         'title' => 'required',
-            //         'delivery_time'    => 'required',
-            //         'service_price'    => 'required',
-            //         'response_time'    => 'required',
-            //         'english_level'    => 'required',
-            //         'description'    => 'required',
-            //     ]
-            // );
-            // if (!empty($request['latitude']) || !empty($request['longitude'])) {
-            //     $this->validate(
-            //         $request,
-            //         [
-            //             'latitude' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-            //             'longitude' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-            //         ]
-            //     );
-            // }
+            $this->validate(
+                $request,
+                [
+                    'title' => 'required',
+                    'delivery_time'    => 'required',
+                    'service_price'    => 'required',
+                    'response_time'    => 'required',
+                    'english_level'    => 'required',
+                    'description'    => 'required',
+                ]
+            );
+            if (!empty($request['latitude']) || !empty($request['longitude'])) {
+                $this->validate(
+                    $request,
+                    [
+                        'latitude' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+                        'longitude' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+                    ]
+                );
+            }
             $user = User::find(Auth::user()->id);
             $package_item = Item::where('subscriber', Auth::user()->id)->first();
             $package = !empty($package_item) ? Package::find($package_item->product_id) : '';
