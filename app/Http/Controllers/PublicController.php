@@ -815,6 +815,72 @@ class PublicController extends Controller
                         )
                     );
                 }
+            }
+            elseif ($type == 'training') {
+                $service_list_meta_title = !empty($inner_page) && !empty($inner_page[0]['service_list_meta_title']) ? $inner_page[0]['service_list_meta_title'] : trans('lang.service_listing');
+                $service_list_meta_desc = !empty($inner_page) && !empty($inner_page[0]['service_list_meta_desc']) ? $inner_page[0]['service_list_meta_desc'] : trans('lang.service_meta_desc');
+                $show_service_banner = !empty($inner_page) && !empty($inner_page[0]['show_service_banner']) ? $inner_page[0]['show_service_banner'] : 'true';
+                $service_inner_banner = !empty($inner_page) && !empty($inner_page[0]['service_inner_banner']) ? $inner_page[0]['service_inner_banner'] : null;
+                // $services= Service::all();
+                $delivery_time = DeliveryTime::all();
+                $response_time = ResponseTime::all();
+                $services_total_records = Service::count();
+                $min_price = !empty($_GET['minprice']) ? $_GET['minprice'] : 0;
+                $max_price = !empty($_GET['maxprice']) ? $_GET['maxprice'] : 0;
+                $results = Service::getSearchResultTraining(
+                    $keyword,
+                    $search_categories,
+                    $search_locations,
+                    $search_languages,
+                    $search_delivery_time,
+                    $search_response_time,
+                    $min_price,
+                    $max_price
+                );
+                $services = $results['services'];
+                if (file_exists(resource_path('views/extend/front-end/training/index.blade.php'))) {
+                    return view(
+                        'extend.front-end.training.index',
+                        compact(
+                            'services_total_records',
+                            'type',
+                            'services',
+                            'symbol',
+                            'keyword',
+                            'categories',
+                            'locations',
+                            'languages',
+                            'delivery_time',
+                            'response_time',
+                            'service_list_meta_title',
+                            'service_list_meta_desc',
+                            'show_service_banner',
+                            'service_inner_banner',
+                            'show_breadcrumbs'
+                        )
+                    );
+                } else {
+                    return view(
+                        'front-end.training.index',
+                        compact(
+                            'services_total_records',
+                            'type',
+                            'services',
+                            'symbol',
+                            'keyword',
+                            'categories',
+                            'locations',
+                            'languages',
+                            'delivery_time',
+                            'response_time',
+                            'service_list_meta_title',
+                            'service_list_meta_desc',
+                            'show_service_banner',
+                            'service_inner_banner',
+                            'show_breadcrumbs'
+                        )
+                    );
+                }
             } else {
                 $min_price = !empty($_GET['minprice']) ? $_GET['minprice'] : 0;
                 $max_price = !empty($_GET['maxprice']) ? $_GET['maxprice'] : 0;

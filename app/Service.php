@@ -138,6 +138,70 @@ class Service extends Model
             $location = $request['locations'];
             $this->location()->associate($location);
             $this->title = filter_var($request['title'], FILTER_SANITIZE_STRING);
+            $this->training = 0;
+            $this->slug = filter_var($request['title'], FILTER_SANITIZE_STRING);
+            $this->price = filter_var($request['service_price'], FILTER_SANITIZE_STRING);
+            $this->delivery_time_id = intval($request['delivery_time']);
+            $this->description = $request['description'];
+            $this->english_level = filter_var($request['english_level'], FILTER_SANITIZE_STRING);
+            $this->response_time_id = intval($request['response_time']);
+            $this->is_featured = filter_var($request['is_featured'], FILTER_SANITIZE_STRING);
+            $this->show_attachments = filter_var($request['show_attachments'], FILTER_SANITIZE_STRING);
+            $this->address = filter_var($request['address'], FILTER_SANITIZE_STRING);
+            $this->longitude = filter_var($request['longitude'], FILTER_SANITIZE_STRING);
+            $this->latitude = filter_var($request['latitude'], FILTER_SANITIZE_STRING);
+            $old_path = Helper::PublicPath() . '/uploads/services/temp';
+            $new_path = Helper::PublicPath() . '/uploads/services/' . $user_id;
+            $service_attachments = array();
+            if (!empty($request['attachments'])) {
+                $attachments = $request['attachments'];
+                foreach ($attachments as $key => $attachment) {
+                    if (file_exists($old_path . '/' . $attachment)) {
+                        if (!file_exists($new_path)) {
+                            File::makeDirectory($new_path, 0755, true, true);
+                        }
+                        $filename = time() . '-' . $attachment;
+                        if (!empty($image_size)) {
+                            foreach ($image_size as $size) {
+                                rename($old_path . '/' . $size . '-' . $attachment, $new_path . '/' . $size . '-' . $filename);
+                            }
+                            rename($old_path . '/' . $attachment, $new_path . '/' . $filename);
+                        } else {
+                            rename($old_path . '/' . $attachment, $new_path . '/' . $filename);
+                        }
+                        $service_attachments[] = $filename;
+                    }
+                }
+                $this->attachments = serialize($service_attachments);
+            }
+            $this->code = $code;
+            $this->save();
+            $service_id = $this->id;
+            $service = Service::find($service_id);
+            $languages = $request['languages'];
+            $service->languages()->sync($languages);
+            $categories = $request['categories'];
+            $service->categories()->sync($categories);
+            $this->users()->attach($user_id, ['type' => 'seller', 'status' => 'published', 'seller_id' => $user_id]);
+            $json['new_service'] = $service_id;
+            $json['type'] = 'success';
+            return $json;
+        } else {
+            $json['type'] = 'error';
+            return $json;
+        }
+    }
+    public function storeTraining($request, $image_size = array())
+    {
+        $json = array();
+        if (!empty($request)) {
+            $random_number = Helper::generateRandomCode(8);
+            $code = strtoupper($random_number);
+            $user_id = Auth::user()->id;
+            $location = $request['locations'];
+            $this->location()->associate($location);
+            $this->title = filter_var($request['title'], FILTER_SANITIZE_STRING);
+            $this->training = 1;
             $this->slug = filter_var($request['title'], FILTER_SANITIZE_STRING);
             $this->price = filter_var($request['service_price'], FILTER_SANITIZE_STRING);
             $this->delivery_time_id = intval($request['delivery_time']);
@@ -405,7 +469,85 @@ class Service extends Model
         $max_price
     ) {
         $json = array();
-        $services = Service::select('*');
+        $services = Service::where('training', 0)->select('*');
+        $service_id = array();
+        $filters = array();
+        $filters['type'] = 'service';
+        if (!empty($keyword)) {
+            $filters['s'] = $keyword;
+            $services->where('title', 'like', '%' . $keyword . '%');
+        };
+        if (!empty($search_categories)) {
+            $filters['category'] = $search_categories;
+            foreach ($search_categories as $key => $search_category) {
+                $categor_obj = Category::where('slug', $search_category)->first();
+                $category = Category::find($categor_obj->id);
+                if (!empty($category->services)) {
+                    $category_services = $category->services->pluck('id')->toArray();
+                    foreach ($category_services as $id) {
+                        $service_id[] = $id;
+                    }
+                }
+            }
+            $services->whereIn('id', $service_id);
+        }
+        if (!empty($search_locations)) {
+            $locations = array();
+            $filters['locations'] = $search_locations;
+            if (is_array($search_locations)) {
+                $locations = Location::select('id')->whereIn('slug', $search_locations)->get()->pluck('id')->toArray();
+            } else {
+                $locations = Location::select('id')->where('slug', $search_locations)->get()->pluck('id')->toArray();
+            }
+            $services->whereIn('location_id', $locations);
+        }
+        if (!empty($max_price)) {
+            $services->whereBetween('price', [$min_price, $max_price]);
+        }
+        if (!empty($search_languages)) {
+            $filters['languages'] = $search_languages;
+            $languages = Language::whereIn('slug', $search_languages)->get();
+            foreach ($languages as $key => $language) {
+                if (!empty($language->services[$key]->id)) {
+                    $service_id[] = $language->services[$key]->id;
+                }
+            }
+            $services->whereIn('id', $service_id);
+        }
+        if (!empty($search_delivery_time)) {
+            $filters['delivery_time'] = $search_delivery_time;
+            $delivery_time = DeliveryTime::select('id')->whereIn('slug', $search_delivery_time)->get()->pluck('id')->toArray();
+            $services->whereIn('delivery_time_id', $delivery_time);
+        }
+        if (!empty($search_response_time)) {
+            $filters['response_time'] = $search_response_time;
+            $response_time = ResponseTime::select('id')->whereIn('slug', $search_response_time)->get()->pluck('id')->toArray();
+            $services->whereIn('response_time_id', $response_time);
+        }
+        $services = $services->orderByRaw("is_featured DESC, updated_at DESC")->paginate(7)->setPath('');
+        foreach ($filters as $key => $filter) {
+            $pagination = $services->appends(
+                array(
+                    $key => $filter,
+                )
+            );
+        }
+        $json['services'] = $services;
+        return $json;
+    }
+
+    public static function getSearchResultTraining(
+        $keyword,
+        $search_categories,
+        $search_locations,
+        $search_languages,
+        $search_delivery_time,
+        $search_response_time,
+        $min_price,
+        $max_price
+    ) {
+        $json = array();
+        $services = Service::where('training',1)->select('*');
         $service_id = array();
         $filters = array();
         $filters['type'] = 'service';

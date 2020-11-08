@@ -7,7 +7,7 @@
        <ul class="wt-service-info">
           <li>
              <span><i class="fa fa-calendar-check-o iconcolor1"></i>
-             <strong>{{{ $delivery_time && $delivery_time->title ? $delivery_time->title : ''}}}</strong> &nbsp;{{ trans('lang.delivery_time') }}</span>
+             <strong>{{{$delivery_time->title}}}</strong> &nbsp;{{ trans('lang.delivery_time') }}</span>
           </li>
           <li>
              <span><i class="fa fa-search iconcolor2"></i><strong>{{{$service->views}}}</strong>&nbsp;{{ trans('lang.views') }}</span>
@@ -16,7 +16,7 @@
              <span><i class="fa fa-shopping-basket iconcolor3"></i><strong>{{{Helper::getServiceCount($service->id, 'completed')}}}</strong>&nbsp;{{ trans('lang.sales') }}</span>
           </li>
           <li>
-             <span><i class="fa fa-clock-o iconcolor4"></i><strong>{{{$response_time && $response_time->title ? $response_time->title : ''}}}</strong>&nbsp;{{ trans('lang.response_time') }}</span>
+             <span><i class="fa fa-clock-o iconcolor4"></i><strong>{{{$response_time->title}}}</strong>&nbsp;{{ trans('lang.response_time') }}</span>
           </li>
        </ul>
        <div class="wt-ratingcontent">

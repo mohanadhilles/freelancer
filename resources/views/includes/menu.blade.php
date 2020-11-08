@@ -55,6 +55,7 @@
                 $employer_order = !empty($menu_settings['pages']) ? Helper::getArrayIndex($menu_settings['pages'], 'id', 'employers') : ''; 
                 $job_order = !empty($menu_settings['pages']) ? Helper::getArrayIndex($menu_settings['pages'], 'id', 'jobs') : ''; 
                 $service_order = !empty($menu_settings['pages']) ? Helper::getArrayIndex($menu_settings['pages'], 'id', 'services') : ''; 
+                $training = !empty($menu_settings['pages']) ? Helper::getArrayIndex($menu_settings['pages'], 'id', 'training') : ''; 
                 $article_order = !empty($menu_settings['pages']) ? Helper::getArrayIndex($menu_settings['pages'], 'id', 'articles') : ''; 
             @endphp
             @if ($add_article_navbar !== 'false')
@@ -92,6 +93,11 @@
                     <li style="{{!empty($service_order) ? 'order:'.$service_order : 'order:99' }}">
                         <a href="{{url('search-results?type=service')}}">
                             {{{ trans('lang.browse_services') }}}
+                        </a>
+                    </li>
+                    <li style="{{!empty($training) ? 'order:'.$training : 'order:99' }}">
+                        <a href="{{url('search-results?type=training')}}">
+                            {{{ trans('lang.training') }}}
                         </a>
                     </li>
                 @endif

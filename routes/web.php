@@ -296,7 +296,21 @@ Route::group(
         Route::post('freelancer/dashboard/delete-service', 'ServiceController@destroy');
         Route::post('service/get-service-settings', 'ServiceController@getServiceSettings');
         Route::post('service/update-service', 'ServiceController@update');
+
+        // training
+        if (Helper::getAccessType() == 'both' || Helper::getAccessType() == 'training') {
+            Route::get('freelancer/training/{status}', 'FreelancerController@showTraining')->name('TrainingListing');
+            Route::get('freelancer/training/{id}/{status}', 'FreelancerController@showTrainingDetail')->name('TrainingDetail');
+        }
+        Route::post('training/change-status', 'TrainingController@changeStatus');
+        Route::get('freelancer/dashboard/edit-training/{id}', 'TrainingController@edit')->name('edit_training');
+        Route::post('training/post-training', 'TrainingController@store');
+        Route::post('training/upload-temp-image', 'TrainingController@uploadTempImage');
+        Route::post('freelancer/dashboard/delete-service', 'TrainingController@destroy');
+        Route::post('service/get-training-settings', 'TrainingController@getServiceSettings');
+        Route::post('training/update-training', 'TrainingController@update');
     }
+    
 );
 //Employer Routes
 Route::group(
@@ -346,6 +360,7 @@ Route::group(
         Route::get('freelancer/profile', 'FreelancerController@index')->name('personalDetail');
         Route::post('freelancer/upload-temp-image', 'FreelancerController@uploadTempImage');
         Route::get('freelancer/dashboard/post-service', 'ServiceController@create')->name('freelancerPostService');
+        Route::get('freelancer/dashboard/post-training', 'TrainingController@create')->name('freelancerPostTraining');
         Route::get('freelancer/payout-settings', 'FreelancerController@payoutSettings')->name('FreelancerPayoutsSettings');
         Route::get('freelancer/payouts', 'FreelancerController@getPayouts')->name('getFreelancerPayouts');
     }

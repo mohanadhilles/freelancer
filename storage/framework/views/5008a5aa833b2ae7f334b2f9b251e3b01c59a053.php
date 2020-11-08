@@ -56,6 +56,7 @@
                 $employer_order = !empty($menu_settings['pages']) ? Helper::getArrayIndex($menu_settings['pages'], 'id', 'employers') : ''; 
                 $job_order = !empty($menu_settings['pages']) ? Helper::getArrayIndex($menu_settings['pages'], 'id', 'jobs') : ''; 
                 $service_order = !empty($menu_settings['pages']) ? Helper::getArrayIndex($menu_settings['pages'], 'id', 'services') : ''; 
+                $training = !empty($menu_settings['pages']) ? Helper::getArrayIndex($menu_settings['pages'], 'id', 'training') : ''; 
                 $article_order = !empty($menu_settings['pages']) ? Helper::getArrayIndex($menu_settings['pages'], 'id', 'articles') : ''; 
             ?>
             <?php if($add_article_navbar !== 'false'): ?>
@@ -97,6 +98,12 @@
                     <li style="<?php echo e(!empty($service_order) ? 'order:'.$service_order : 'order:99'); ?>">
                         <a href="<?php echo e(url('search-results?type=service')); ?>">
                             <?php echo e(trans('lang.browse_services')); ?>
+
+                        </a>
+                    </li>
+                    <li style="<?php echo e(!empty($training) ? 'order:'.$training : 'order:99'); ?>">
+                        <a href="<?php echo e(url('search-results?type=training')); ?>">
+                            <?php echo e(trans('lang.training')); ?>
 
                         </a>
                     </li>

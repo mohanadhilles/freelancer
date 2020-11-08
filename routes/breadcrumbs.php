@@ -37,9 +37,23 @@ Breadcrumbs::for(
 );
 
 Breadcrumbs::for(
+    'training', function ($trail) {
+        $trail->parent('home');
+        $trail->push(trans('lang.training'), route('training'));
+    }
+);
+
+
+Breadcrumbs::for(
     'serviceDetail', function ($trail, $slug) {
         $trail->parent('services');
         $trail->push(trans('lang.service_detail'), route('serviceDetail', ['slug' => $slug]));
+    }
+);
+Breadcrumbs::for(
+    'trainingDetail', function ($trail, $slug) {
+        $trail->parent('trainingDetail');
+        $trail->push(trans('lang.training'), route('trainingDetail', ['slug' => $slug]));
     }
 );
 

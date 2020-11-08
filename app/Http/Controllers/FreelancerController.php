@@ -1013,6 +1013,95 @@ class FreelancerController extends Controller
             }
         }
     }
+    public function showTraining($status)
+    {
+        $freelancer_id = Auth::user()->id;
+        if (Auth::user()) {
+            $freelancer = User::find($freelancer_id);
+            $currency   = SiteManagement::getMetaValue('commision');
+            $symbol = !empty($currency) && !empty($currency[0]['currency']) ? Helper::currencyList($currency[0]['currency']) : array();
+            $status_list = array_pluck(Helper::getFreelancerServiceStatus(), 'title', 'value');
+            if (!empty($status) && $status === 'posted') {
+                $services = $freelancer->services;
+                if (file_exists(resource_path('views/extend/back-end/freelancer/training/index.blade.php'))) {
+                    return view(
+                        'extend.back-end.freelancer.training.index',
+                        compact(
+                            'services',
+                            'symbol',
+                            'status_list'
+                        )
+                    );
+                } else {
+                    return view(
+                        'back-end.freelancer.training.index',
+                        compact(
+                            'services',
+                            'symbol',
+                            'status_list'
+                        )
+                    );
+                }
+            } else if (!empty($status) && $status === 'hired') {
+                $services = Helper::getFreelancerServices('hired', Auth::user()->id);
+                if (file_exists(resource_path('views/extend/back-end/freelancer/training/ongoing.blade.php'))) {
+                    return view(
+                        'extend.back-end.freelancer.training.ongoing',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                } else {
+                    return view(
+                        'back-end.freelancer.training.ongoing',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                }
+            } elseif (!empty($status) && $status === 'completed') {
+                $services = Helper::getFreelancerServices('completed', Auth::user()->id);
+                if (file_exists(resource_path('views/extend/back-end/freelancer/training/completed.blade.php'))) {
+                    return view(
+                        'extend.back-end.freelancer.training.completed',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                } else {
+                    return view(
+                        'back-end.freelancer.training.completed',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                }
+            } elseif (!empty($status) && $status === 'cancelled') {
+                $services = Helper::getFreelancerServices('cancelled', Auth::user()->id);
+                if (file_exists(resource_path('views/extend/back-end/freelancer/training/cancelled.blade.php'))) {
+                    return view(
+                        'extend.back-end.freelancer.training.cancelled',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                } else {
+                    return view(
+                        'back-end.freelancer.training.cancelled',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                }
+            }
+        }
+    }
 
     /**
      * Service Details.
@@ -1049,6 +1138,81 @@ class FreelancerController extends Controller
             if (file_exists(resource_path('views/extend/back-end/employer/services/show.blade.php'))) {
                 return view(
                     'extend.back-end.employer.services.show',
+                    compact(
+                        'pivot_service',
+                        'id',
+                        'service',
+                        'freelancer',
+                        'service_status',
+                        'attachment',
+                        'review_options',
+                        'stars',
+                        'rating',
+                        'feedbacks',
+                        'cancel_proposal_text',
+                        'cancel_proposal_button',
+                        'validation_error_text',
+                        'cancel_popup_title',
+                        'pivot_id',
+                        'purchaser',
+                        'symbol'
+                    )
+                );
+            } else {
+                return view(
+                    'back-end.employer.services.show',
+                    compact(
+                        'pivot_service',
+                        'id',
+                        'service',
+                        'freelancer',
+                        'service_status',
+                        'attachment',
+                        'review_options',
+                        'stars',
+                        'rating',
+                        'feedbacks',
+                        'cancel_proposal_text',
+                        'cancel_proposal_button',
+                        'validation_error_text',
+                        'cancel_popup_title',
+                        'pivot_id',
+                        'purchaser',
+                        'symbol'
+                    )
+                );
+            }
+        } else {
+            abort(404);
+        }
+    }
+    public function showTrainingDetail($id, $status)
+    {
+        if (Auth::user()) {
+            $pivot_service = Helper::getPivotService($id);
+            $pivot_id = $pivot_service->id;
+            $service = Service::where('training',1)->find($pivot_service->service_id);
+            $seller = Helper::getServiceSeller($service->id);
+            $purchaser = $service->purchaser->first();
+            $freelancer = !empty($seller) ? User::find($seller->user_id) : ''; 
+            $service_status = Helper::getProjectStatus();
+            $review_options = DB::table('review_options')->get()->all();
+            $avg_rating = !empty($freelancer) ? Review::where('receiver_id', $freelancer->id)->sum('avg_rating') : '';
+            $freelancer_rating  = !empty($freelancer) && !empty($freelancer->profile->ratings) ? Helper::getUnserializeData($freelancer->profile->ratings) : 0;
+            $rating = !empty($freelancer_rating) ? $freelancer_rating[0] : 0;
+            $stars  =  !empty($freelancer_rating) ? $freelancer_rating[0] / 5 * 100 : 0;
+            $reviews = !empty($freelancer) ? Review::where('receiver_id', $freelancer->id)->where('job_id', $id)->where('project_type', 'service')->get() : '';
+            $feedbacks = !empty($freelancer) ? Review::select('feedback')->where('receiver_id', $freelancer->id)->count() : '';
+            $cancel_proposal_text = trans('lang.cancel_proposal_text');
+            $cancel_proposal_button = trans('lang.send_request');
+            $validation_error_text = trans('lang.field_required');
+            $cancel_popup_title = trans('lang.reason');
+            $attachment = Helper::getUnserializeData($service->attachments);
+            $currency   = SiteManagement::getMetaValue('commision');
+            $symbol = !empty($currency) && !empty($currency[0]['currency']) ? Helper::currencyList($currency[0]['currency']) : array();
+            if (file_exists(resource_path('views/extend/back-end/employer/services/show.blade.php'))) {
+                return view(
+                    'extend.back-end.employer.training.show',
                     compact(
                         'pivot_service',
                         'id',

@@ -41,8 +41,11 @@
                     <?php endif; ?>
                     <?php elseif($role === 'freelancer'): ?>
                         <?php if(Helper::getAccessType() == 'both' || Helper::getAccessType() == 'services'): ?>
-                            <div class="wt-btnarea"><a href="<?php echo e(url(route('freelancerPostService'))); ?>" class="wt-btn"><?php echo e(trans('lang.post_service')); ?></a></div>
-                        <?php else: ?>
+                            <div class="btn btn-primary"><a href="<?php echo e(url(route('freelancerPostService'))); ?>" style="color: white"><?php echo e(trans('lang.post_service')); ?></a></div>
+                        
+                            <div class="btn btn-success"><a href="<?php echo e(url(route('freelancerPostTraining'))); ?>" style="color: white"><?php echo e(trans('lang.post_training')); ?></a></div>
+
+                            <?php else: ?>
                             <div class="wt-btnarea"><a href="<?php echo e(url(route('showUserProfile', ['slug' => Auth::user()->slug]))); ?>" class="wt-btn"><?php echo e(trans('lang.view_profile')); ?></a></div>
                         <?php endif; ?>
                     <?php endif; ?>
@@ -220,6 +223,18 @@
                                         <li><hr><a href="<?php echo e(url('employer/services/cancelled')); ?>"><?php echo e(trans('lang.cancelled_services')); ?></a></li>
                                     </ul>
                                 </li>
+                                <li class="menu-item-has-children">
+                                    <span class="wt-dropdowarrow"><i class="lnr lnr-chevron-right"></i></span>
+                                    <a href="javascript:void(0)">
+                                        <i class="ti-briefcase"></i>
+                                        <span><?php echo e(trans('lang.manage_training')); ?></span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><hr><a href="<?php echo e(url('employer/training/hired')); ?>"><?php echo e(trans('lang.ongoing_training')); ?></a></li>
+                                        <li><hr><a href="<?php echo e(url('employer/training/completed')); ?>"><?php echo e(trans('lang.completed_training')); ?></a></li>
+                                        <li><hr><a href="<?php echo e(url('employer/training/cancelled')); ?>"><?php echo e(trans('lang.cancelled_training')); ?></a></li>
+                                    </ul>
+                                </li>
                             <?php endif; ?>
                             <li>
                                 <a href="<?php echo e(route('employerPayoutsSettings')); ?>">
@@ -273,6 +288,19 @@
                                         <li><hr><a href="<?php echo e(route('ServiceListing', ['status'=>'hired'])); ?>"><?php echo e(trans('lang.ongoing_services')); ?></a></li>
                                         <li><hr><a href="<?php echo e(route('ServiceListing', ['status'=>'completed'])); ?>"><?php echo e(trans('lang.completed_services')); ?></a></li>
                                         <li><hr><a href="<?php echo e(route('ServiceListing', ['status'=>'cancelled'])); ?>"><?php echo e(trans('lang.cancelled_services')); ?></a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <span class="wt-dropdowarrow"><i class="lnr lnr-chevron-right"></i></span>
+                                    <a href="javascript:void(0)">
+                                        <i class="ti-briefcase"></i>
+                                        <span><?php echo e(trans('lang.manage_training')); ?></span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><hr><a href="<?php echo e(route('TrainingListing', ['status'=>'posted'])); ?>"><?php echo e(trans('lang.posted_course')); ?></a></li>
+                                        <li><hr><a href="<?php echo e(route('TrainingListing', ['status'=>'hired'])); ?>"><?php echo e(trans('lang.ongoing_course')); ?></a></li>
+                                        <li><hr><a href="<?php echo e(route('TrainingListing', ['status'=>'completed'])); ?>"><?php echo e(trans('lang.completed_course')); ?></a></li>
+                                        <li><hr><a href="<?php echo e(route('ServiceListing', ['status'=>'cancelled'])); ?>"><?php echo e(trans('lang.cancelled_course')); ?></a></li>
                                     </ul>
                                 </li>
                             <?php endif; ?>

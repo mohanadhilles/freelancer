@@ -40,8 +40,11 @@
                     @endif
                     @elseif ($role === 'freelancer')
                         @if (Helper::getAccessType() == 'both' || Helper::getAccessType() == 'services')
-                            <div class="wt-btnarea"><a href="{{{ url(route('freelancerPostService')) }}}" class="wt-btn">{{{ trans('lang.post_service') }}}</a></div>
-                        @else
+                            <div class="btn btn-primary"><a href="{{{ url(route('freelancerPostService')) }}}" style="color: white">{{{ trans('lang.post_service') }}}</a></div>
+                        
+                            <div class="btn btn-success"><a href="{{{ url(route('freelancerPostTraining')) }}}" style="color: white">{{{ trans('lang.post_training') }}}</a></div>
+
+                            @else
                             <div class="wt-btnarea"><a href="{{{ url(route('showUserProfile', ['slug' => Auth::user()->slug])) }}}" class="wt-btn">{{{ trans('lang.view_profile') }}}</a></div>
                         @endif
                     @endif
@@ -219,6 +222,18 @@
                                         <li><hr><a href="{{{ url('employer/services/cancelled') }}}">{{ trans('lang.cancelled_services') }}</a></li>
                                     </ul>
                                 </li>
+                                <li class="menu-item-has-children">
+                                    <span class="wt-dropdowarrow"><i class="lnr lnr-chevron-right"></i></span>
+                                    <a href="javascript:void(0)">
+                                        <i class="ti-briefcase"></i>
+                                        <span>{{ trans('lang.manage_training') }}</span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><hr><a href="{{{ url('employer/training/hired') }}}">{{ trans('lang.ongoing_training') }}</a></li>
+                                        <li><hr><a href="{{{ url('employer/training/completed') }}}">{{ trans('lang.completed_training') }}</a></li>
+                                        <li><hr><a href="{{{ url('employer/training/cancelled') }}}">{{ trans('lang.cancelled_training') }}</a></li>
+                                    </ul>
+                                </li>
                             @endif
                             <li>
                                 <a href="{{{ route('employerPayoutsSettings') }}}">
@@ -272,6 +287,19 @@
                                         <li><hr><a href="{{{ route('ServiceListing', ['status'=>'hired']) }}}">{{ trans('lang.ongoing_services') }}</a></li>
                                         <li><hr><a href="{{{ route('ServiceListing', ['status'=>'completed']) }}}">{{ trans('lang.completed_services') }}</a></li>
                                         <li><hr><a href="{{{ route('ServiceListing', ['status'=>'cancelled']) }}}">{{ trans('lang.cancelled_services') }}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children">
+                                    <span class="wt-dropdowarrow"><i class="lnr lnr-chevron-right"></i></span>
+                                    <a href="javascript:void(0)">
+                                        <i class="ti-briefcase"></i>
+                                        <span>{{ trans('lang.manage_training') }}</span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><hr><a href="{{{ route('TrainingListing', ['status'=>'posted']) }}}">{{ trans('lang.posted_course') }}</a></li>
+                                        <li><hr><a href="{{{ route('TrainingListing', ['status'=>'hired']) }}}">{{ trans('lang.ongoing_course') }}</a></li>
+                                        <li><hr><a href="{{{ route('TrainingListing', ['status'=>'completed']) }}}">{{ trans('lang.completed_course') }}</a></li>
+                                        <li><hr><a href="{{{ route('ServiceListing', ['status'=>'cancelled']) }}}">{{ trans('lang.cancelled_course') }}</a></li>
                                     </ul>
                                 </li>
                             @endif
