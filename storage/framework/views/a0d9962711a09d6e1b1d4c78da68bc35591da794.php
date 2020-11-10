@@ -230,9 +230,9 @@
                                         <span><?php echo e(trans('lang.manage_training')); ?></span>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li><hr><a href="<?php echo e(url('employer/training/hired')); ?>"><?php echo e(trans('lang.ongoing_training')); ?></a></li>
-                                        <li><hr><a href="<?php echo e(url('employer/training/completed')); ?>"><?php echo e(trans('lang.completed_training')); ?></a></li>
-                                        <li><hr><a href="<?php echo e(url('employer/training/cancelled')); ?>"><?php echo e(trans('lang.cancelled_training')); ?></a></li>
+                                        <li><hr><a href="<?php echo e(url('employer/training/hired')); ?>"><?php echo e(trans('lang.ongoing_course')); ?></a></li>
+                                        <li><hr><a href="<?php echo e(url('employer/training/completed')); ?>"><?php echo e(trans('lang.completed_course')); ?></a></li>
+                                        <li><hr><a href="<?php echo e(url('employer/training/cancelled')); ?>"><?php echo e(trans('lang.cancelled_course')); ?></a></li>
                                     </ul>
                                 </li>
                             <?php endif; ?>

@@ -176,6 +176,32 @@
                                 <li><a href="{{{ url('employer/services/cancelled') }}}">{{ trans('lang.cancelled_services') }}</a></li>
                             </ul>
                         </li>
+
+                        <li class="menu-item-has-children">
+                            <span class="wt-dropdowarrow"><i class="lnr lnr-chevron-right"></i></span>
+                            <a href="javascript:void(0)">
+                                <i class="ti-briefcase"></i>
+                                <span>{{ trans('lang.manage_services') }}</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li><a href="{{{ url('employer/training/hired') }}}">{{ trans('lang.ongoing_course') }}</a></li>
+                                <li><a href="{{{ url('employer/training/completed') }}}">{{ trans('lang.completed_course') }}</a></li>
+                                <li><a href="{{{ url('employer/training/cancelled') }}}">{{ trans('lang.cancelled_course') }}</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="menu-item-has-children">
+                            <span class="wt-dropdowarrow"><i class="lnr lnr-chevron-right"></i></span>
+                            <a href="javascript:void(0)">
+                                <i class="ti-briefcase"></i>
+                                <span>{{ trans('lang.manage_training') }}</span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li><a href="{{{ url('employer/training/hired') }}}">{{ trans('lang.ongoing_course') }}</a></li>
+                                <li><a href="{{{ url('employer/training/completed') }}}">{{ trans('lang.completed_course') }}</a></li>
+                                <li><a href="{{{ url('employer/training/cancelled') }}}">{{ trans('lang.cancelled_course') }}</a></li>
+                            </ul>
+                        </li>
                     @endif
                     <li>
                         <a href="{{{ route('employerPayoutsSettings') }}}">

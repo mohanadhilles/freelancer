@@ -333,6 +333,10 @@ Route::group(
         Route::post('proposal/hire-freelancer', 'ProposalController@hiredFreelencer');
         Route::get('employer/services/{status}', 'EmployerController@showEmployerServices');
         Route::get('employer/service/{service_id}/{id}/{status}', 'EmployerController@showServiceDetail');
+
+        Route::get('employer/training/{status}', 'EmployerController@showEmployerTraining');
+        Route::get('employer/training/{service_id}/{id}/{status}', 'EmployerController@showTrainingDetail');
+
         Route::get('employer/payout-settings', 'EmployerController@payoutSettings')->name('employerPayoutsSettings');
         Route::get('employer/payouts', 'EmployerController@getPayouts')->name('getEmployerPayouts');
     }

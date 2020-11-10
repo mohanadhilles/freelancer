@@ -176,6 +176,32 @@
                                 <li><a href="<?php echo e(url('employer/services/cancelled')); ?>"><?php echo e(trans('lang.cancelled_services')); ?></a></li>
                             </ul>
                         </li>
+
+                        <li class="menu-item-has-children">
+                            <span class="wt-dropdowarrow"><i class="lnr lnr-chevron-right"></i></span>
+                            <a href="javascript:void(0)">
+                                <i class="ti-briefcase"></i>
+                                <span><?php echo e(trans('lang.manage_services')); ?></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li><a href="<?php echo e(url('employer/training/hired')); ?>"><?php echo e(trans('lang.ongoing_course')); ?></a></li>
+                                <li><a href="<?php echo e(url('employer/training/completed')); ?>"><?php echo e(trans('lang.completed_course')); ?></a></li>
+                                <li><a href="<?php echo e(url('employer/training/cancelled')); ?>"><?php echo e(trans('lang.cancelled_course')); ?></a></li>
+                            </ul>
+                        </li>
+
+                        <li class="menu-item-has-children">
+                            <span class="wt-dropdowarrow"><i class="lnr lnr-chevron-right"></i></span>
+                            <a href="javascript:void(0)">
+                                <i class="ti-briefcase"></i>
+                                <span><?php echo e(trans('lang.manage_training')); ?></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li><a href="<?php echo e(url('employer/training/hired')); ?>"><?php echo e(trans('lang.ongoing_course')); ?></a></li>
+                                <li><a href="<?php echo e(url('employer/training/completed')); ?>"><?php echo e(trans('lang.completed_course')); ?></a></li>
+                                <li><a href="<?php echo e(url('employer/training/cancelled')); ?>"><?php echo e(trans('lang.cancelled_course')); ?></a></li>
+                            </ul>
+                        </li>
                     <?php endif; ?>
                     <li>
                         <a href="<?php echo e(route('employerPayoutsSettings')); ?>">

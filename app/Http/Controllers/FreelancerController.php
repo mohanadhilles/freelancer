@@ -1116,7 +1116,7 @@ class FreelancerController extends Controller
         if (Auth::user()) {
             $pivot_service = Helper::getPivotService($id);
             $pivot_id = $pivot_service->id;
-            $service = Service::find($pivot_service->service_id);
+            $service = Service::where('training',0)->find($pivot_service->service_id);
             $seller = Helper::getServiceSeller($service->id);
             $purchaser = $service->purchaser->first();
             $freelancer = !empty($seller) ? User::find($seller->user_id) : ''; 

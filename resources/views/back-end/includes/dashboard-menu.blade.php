@@ -229,9 +229,9 @@
                                         <span>{{ trans('lang.manage_training') }}</span>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li><hr><a href="{{{ url('employer/training/hired') }}}">{{ trans('lang.ongoing_training') }}</a></li>
-                                        <li><hr><a href="{{{ url('employer/training/completed') }}}">{{ trans('lang.completed_training') }}</a></li>
-                                        <li><hr><a href="{{{ url('employer/training/cancelled') }}}">{{ trans('lang.cancelled_training') }}</a></li>
+                                        <li><hr><a href="{{{ url('employer/training/hired') }}}">{{ trans('lang.ongoing_course') }}</a></li>
+                                        <li><hr><a href="{{{ url('employer/training/completed') }}}">{{ trans('lang.completed_course') }}</a></li>
+                                        <li><hr><a href="{{{ url('employer/training/cancelled') }}}">{{ trans('lang.cancelled_course') }}</a></li>
                                     </ul>
                                 </li>
                             @endif

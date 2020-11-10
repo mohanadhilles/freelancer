@@ -466,7 +466,7 @@ class EmployerController extends Controller
     {
         if (Auth::user()) {
             $pivot_service = Helper::getPivotService($pivot_id);
-            $service = Service::find($service_id);
+            $service = Service::where('training',0)->find($service_id);
             $seller = Helper::getServiceSeller($service->id);
             $freelancer = !empty($seller) ? User::find($seller->user_id) : '';
             $service_status = Helper::getProjectStatus();
@@ -521,6 +521,179 @@ class EmployerController extends Controller
             } else {
                 return view(
                     'back-end.employer.services.show',
+                    compact(
+                        'average_rating_count',
+                        'pivot_service',
+                        'service',
+                        'freelancer',
+                        'service_status',
+                        'attachment',
+                        'review_options',
+                        'stars',
+                        'rating',
+                        'feedbacks',
+                        'cancel_proposal_text',
+                        'cancel_proposal_button',
+                        'validation_error_text',
+                        'cancel_popup_title',
+                        'service_id',
+                        'pivot_id',
+                        'symbol'
+                    )
+                );
+            }
+        } else {
+            abort(404);
+        }
+    }
+
+
+
+    // training
+
+        /**
+     * Show Employer Jobs.
+     *
+     * @param string $status job status
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showEmployerTraining($status)
+    {
+        $ongoing_jobs = array();
+        $employer_id = Auth::user()->id;
+        if (Auth::user()) {
+            $employer = User::find($employer_id);
+            $currency   = SiteManagement::getMetaValue('commision');
+            $symbol = !empty($currency) && !empty($currency[0]['currency']) ? Helper::currencyList($currency[0]['currency']) : array();
+            if (!empty($status) && $status === 'hired') {
+                $services = $employer->purchasedServices;
+                if (file_exists(resource_path('views/extend/back-end/employer/training/ongoing.blade.php'))) {
+                    return view(
+                        'extend.back-end.employer.training.ongoing',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                } else {
+                    return view(
+                        'back-end.employer.training.ongoing',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                }
+            } elseif (!empty($status) && $status === 'completed') {
+                $services = $employer->completedServices;
+                if (file_exists(resource_path('views/extend/back-end/employer/training/completed.blade.php'))) {
+                    return view(
+                        'extend.back-end.employer.training.completed',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                } else {
+                    return view(
+                        'back-end.employer.training.completed',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                }
+            } elseif (!empty($status) && $status === 'cancelled') {
+                $services = $employer->cancelledServices;
+                if (file_exists(resource_path('views/extend/back-end/employer/training/cancelled.blade.php'))) {
+                    return view(
+                        'extend.back-end.employer.training.cancelled',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                } else {
+                    return view(
+                        'back-end.employer.training.cancelled',
+                        compact(
+                            'services',
+                            'symbol'
+                        )
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Service Detail.
+     *
+     * @param int    $id     id
+     * @param string $status status
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showTrainingDetail($service_id, $pivot_id, $status)
+    {
+        if (Auth::user()) {
+            $pivot_service = Helper::getPivotService($pivot_id);
+            $service = Service::where('training',1)->find($service_id);
+            $seller = Helper::getServiceSeller($service->id);
+            $freelancer = !empty($seller) ? User::find($seller->user_id) : '';
+            $service_status = Helper::getProjectStatus();
+            $review_options = DB::table('review_options')->get()->all();
+            // $avg_rating = Review::where('receiver_id', $freelancer->id)->sum('avg_rating');
+
+            $feedbacks = !empty($freelancer) ? Review::select('feedback')->where('receiver_id', $freelancer->id)->count() : '';
+            $avg_rating = Review::where('receiver_id', $freelancer->id)->sum('avg_rating');
+            $rating  = $avg_rating != 0 ? round($avg_rating/Review::count()) : 0;
+            $reviews = Review::where('receiver_id', $freelancer->id)->get();
+            $stars  = $reviews->sum('avg_rating') != 0 ? (($reviews->sum('avg_rating')/$feedbacks)/5)*100 : 0;
+            $average_rating_count = !empty($feedbacks) ? $reviews->sum('avg_rating')/$feedbacks : 0;
+
+
+
+
+            // $freelancer_rating  = !empty($freelancer) && !empty($freelancer->profile->ratings) ? Helper::getUnserializeData($freelancer->profile->ratings) : 0;
+            // $rating = !empty($freelancer_rating) ? $freelancer_rating[0] : 0;
+            // $stars  =  !empty($freelancer_rating) ? $freelancer_rating[0] / 5 * 100 : 0;
+
+            $reviews = !empty($freelancer) ? Review::where('receiver_id', $freelancer->id)->where('job_id', $service_id)->where('project_type', 'service')->get() : '';
+            $cancel_proposal_text = trans('lang.cancel_proposal_text');
+            $cancel_proposal_button = trans('lang.send_request');
+            $validation_error_text = trans('lang.field_required');
+            $cancel_popup_title = trans('lang.reason');
+            $attachment = Helper::getUnserializeData($service->attachments);
+            $currency   = SiteManagement::getMetaValue('commision');
+            $symbol = !empty($currency) && !empty($currency[0]['currency']) ? Helper::currencyList($currency[0]['currency']) : array();
+            if (file_exists(resource_path('views/extend/back-end/employer/training/show.blade.php'))) {
+                return view(
+                    'extend.back-end.employer.training.show',
+                    compact(
+                        'average_rating_count',
+                        'pivot_service',
+                        'service',
+                        'freelancer',
+                        'service_status',
+                        'attachment',
+                        'review_options',
+                        'stars',
+                        'rating',
+                        'feedbacks',
+                        'cancel_proposal_text',
+                        'cancel_proposal_button',
+                        'validation_error_text',
+                        'cancel_popup_title',
+                        'service_id',
+                        'pivot_id',
+                        'symbol'
+                    )
+                );
+            } else {
+                return view(
+                    'back-end.employer.training.show',
                     compact(
                         'average_rating_count',
                         'pivot_service',
