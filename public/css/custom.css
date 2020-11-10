@@ -134,6 +134,13 @@ background-image: url(../images/homeseven/banner-img/img-02.png) ,linear-gradien
 .wt-freelancer-img{
     background: #ededed !important;
 }
+
+.wt-haslayout .wt-navigationarea .container-fluid .row .col-xs-12.col-sm-12.col-md-12.col-lg-12 .wt-logo a img{
+    background: #07013d !important;
+    height: 38px !important;
+    border-radius: 5px !important;
+    padding: 5px !important;
+}
 @media (max-width:991px){
     .wt-headerelevenb .wt-navigation > ul > li > a, .wt-header .wt-navigationarea .wt-userlogedin .wt-username span, .wt-header .wt-navigationarea .wt-userlogedin .wt-username h3 {
         color: #231c1c !important;
