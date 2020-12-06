@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Console\Commands;
+
+use App\Models\Offer;
+use App\Models\RetailerPromo;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
+
+class UpdateOffersStatus extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'offers:status';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'check offers type unique promo have code / not, if not assign status 0 in offers table';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+//        $this->line('start update unique_promo_qr');
+//        $this->updateOfferStatus('unique_promo_qr');
+//
+//        $this->line('start update unique_promo');
+//        $this->updateOfferStatus('unique_promo');
+
+        $this->line('start update offers expired Date');
+        $this->updateOffersExpiredDate();
+    }
+
+    /**
+     * @param $type
+     */
+    public function updateOfferStatus($type)
+    {
+        try {
+            $offers = DB::table('offers as o')->whereNull('o.deleted_at')
+                ->where('o.status', '=', 1)
+                ->where('o.type', '=', $type)
+                ->select('o.id', 'o.type', 'o.status')
+                ->groupBy('id', 'type', 'status')
+                ->orderBy('id', 'desc')
+                ->latest('o.created_at')
+                ->get();
+
+            if (isset($offers) and count($offers) > 0) {
+                foreach ($offers as $offer) {
+                    $retailer_promo = RetailerPromo::where('offer_id', '=', $offer->id)
+                        ->whereNotNull('user_id')->first();
+                    if (!isset($retailer_promo) && !isset($retailer_promo->code)) {
+                        DB::table('offers')->where('id', $offer->id)->update(['status' => 0]);
+                    }
+                }
+            } else {
+                $this->line('No unique_promo_qr to Update');
+            }
+        } catch (\Exception $e) {
+            $this->error("An error when updated offers retailer promo");
+        }
+    }
+
+    public function updateOffersExpiredDate()
+    {
+        try {
+            $offers = DB::table('offers as o')->whereNull('o.deleted_at')
+                ->where('o.status', '=', 1)
+                ->whereNotNull('o.expired_at')
+                ->select('o.id', 'o.type', 'o.status', 'o.expired_at','o.title')
+                ->groupBy('id', 'type', 'status', 'expired_at','title')
+                ->orderBy('id', 'desc')
+                ->latest('o.created_at')
+                ->get();
+
+            if (isset($offers) and count($offers) > 0) {
+
+                foreach ($offers as $index => $offer) {
+                    if (isset($offer->expired_at)) {
+                        echo  $index .":". json_decode($offer->title)->en . "\n";
+                       Offer::where('expired_at', '<', date('Y-m-d'))
+                            ->where('id', $offer->id)
+                            ->update(['status' => 0]);
+                    }
+                }
+                echo "total Offers Expire Date"." " .count($offers);
+            } else {
+                $this->line('No offers to Update');
+            }
+        } catch (\Exception $e) {
+            $this->error("An error when updated offers change status");
+        }
+    }
+}

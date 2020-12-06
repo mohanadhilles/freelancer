@@ -13,7 +13,7 @@
 						<h2>{{ trans('lang.orders') }}</h2>
 					</div>
 					<div class="wt-dashboardboxcontent wt-categoriescontentholder">
-						@if ($orders->count() > 0)
+						@if (isset($orders) && $orders->count() > 0)
 							<table class="wt-tablecategories wt-tableservice">
 								<thead>
 									<tr>
@@ -48,7 +48,7 @@
 											}
 											$user = App\User::find($order->user_id);
 										@endphp
-										@if (!empty($order->invoice))
+										@if (isset($order) && !empty($order->invoice))
 											<tr class="del-{{{ $order->id }}}">
 												<td data-th="title">
 													<span class="bt-content">
@@ -71,7 +71,7 @@
 													</span>
 												</td>
 												<td>
-													@if (!empty($user))
+													@if (isset($user) && !empty($user))
 														<span class="bt-content">
 															<div class="wt-service-tabel">
 																<figure class="service-feature-image"><img src="{{{asset(Helper::getProfileImage($user->id))}}}" alt="{{{trans('lang.image')}}}"></figure>
@@ -131,7 +131,7 @@
 													</span>
 												</td>
 											</tr>	
-											@if (!empty($order->invoice->detail))
+											@if (isset($order) && !empty($order->invoice->detail))
 												<b-modal ref="myModalRef-{{ $order->id }}" class="wt-uploadrating wt-order-details" hide-footer title="{{{trans('lang.payment_detail')}}}" v-cloak>
 													<div class="wt-modalbody modal-body">
 														<div class="wt-description">
