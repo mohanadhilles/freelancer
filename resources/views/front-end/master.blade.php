@@ -119,5 +119,14 @@
 <script type="text/javascript">
 var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {widgetcode:"76e552bf93352cd3f332fe1b6ef5b5b60dacb0f109db044c25b6ef720716b861", values:{},ready:function(){}};var d=document;s=d.createElement("script");s.type="text/javascript";s.id="zsiqscript";s.defer=true;s.src="https://salesiq.zoho.com/widget";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);d.write("<div id='zsiqwidget'></div>");
 </script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7PWLVRHP16"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7PWLVRHP16');
+</script>
 @stack('scripts')
 @endpush
