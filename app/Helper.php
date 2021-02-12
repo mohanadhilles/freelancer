@@ -1402,9 +1402,9 @@ class Helper extends Model
                 'icon' => 'fab fa-twitter',
             ),
             'youtube' => array(
-                'title' => trans('lang.social_icons.youtube'),
+                'title' => trans('lang.social_icons.snapchat'),
                 'color' => '#0077B5',
-                'icon' => 'fab fa-youtube',
+                'icon' => 'fab fa-snapchat',
             ),
             'instagram' => array(
                 'title' => trans('lang.social_icons.insta'),
@@ -1412,9 +1412,9 @@ class Helper extends Model
                 'icon' => 'fab fa-instagram',
             ),
             'googleplus' => array(
-                'title' => trans('lang.social_icons.gplus'),
+                'title' => trans('lang.social_icons.linkedin'),
                 'color' => '#dd4b39',
-                'icon' => 'fab fa-google-plus-g',
+                'icon' => 'fab fa-linkedin-in',
             )
         );
         return $social;
