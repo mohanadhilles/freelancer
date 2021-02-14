@@ -141,6 +141,17 @@ background-image: url(../images/homeseven/banner-img/img-02.png) ,linear-gradien
     border-radius: 5px !important;
     padding: 5px !important;
 }
+.snapchat-icon{
+    position: fixed !important;
+    width: 50px !important;
+    height: 50px;
+    bottom: 50px;
+    left: 50px;
+    z-index: 9;
+}
+.snapchat-icon i{
+    color: #fadd53 !important;
+}
 @media (max-width:991px){
     .wt-headerelevenb .wt-navigation > ul > li > a, .wt-header .wt-navigationarea .wt-userlogedin .wt-username span, .wt-header .wt-navigationarea .wt-userlogedin .wt-username h3 {
         color: #231c1c !important;

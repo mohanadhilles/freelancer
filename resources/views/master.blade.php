@@ -102,6 +102,7 @@
 			@yield('footer')
 		</div>
 	</div>
+	<a href="https://www.snapchat.com/add/partime.ksa"  target="_blank" class="snapchat-icon"><i class="fa fa-snapchat fa-5x" aria-hidden="true"></i></a>
 	<script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 	<script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
 	@yield('bootstrap_script')
